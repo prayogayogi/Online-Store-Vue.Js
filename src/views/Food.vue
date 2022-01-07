@@ -27,7 +27,7 @@
         </div>
       </div>
       <div class="row mb-3 mt-4">
-        <div class="col mb-4 m-3" v-for="product in products" :key="product.id">
+        <div class="col col-md-4 col-12 mb-4" v-for="product in products" :key="product.id">
           <card-product :product="product" />
         </div>
       </div>

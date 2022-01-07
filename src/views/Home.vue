@@ -9,14 +9,14 @@
           <h2>Best<strong></strong>Foods</h2>
         </div>
         <div class="col">
-          <router-link to="/food" class="btn-lg btn-success float-right"
-            ><b-icon-eye></b-icon-eye> See all</router-link
-          >
+          <router-link to="/food" class="btn-sm btn-success float-right">
+            <b-icon-eye></b-icon-eye> See all
+          </router-link>
         </div>
       </div>
 
       <div class="row mb-3 mt-4">
-        <div class="col mb-4 m-3" v-for="product in products" :key="product.id">
+        <div class="col col-md-4 col-12 mb-4" v-for="product in products" :key="product.id">
           <card-product :product="product" />
         </div>
       </div>
@@ -25,8 +25,8 @@
 </template>
 
 <script>
-// @ is an alias to /src
-import Navbar from "@/components/Navbar.vue";
+// Import a Component And Axios
+import Navbar from "../components/Navbar.vue";
 import Hero from "../components/Hero.vue";
 import CardProduct from "../components/CardProduct.vue";
 import axios from "axios";
@@ -59,7 +59,7 @@ export default {
 
 
 <style scoped>
-.float-right{
+.float-right {
   text-decoration: none;
 }
 </style>
