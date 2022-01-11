@@ -7,9 +7,15 @@
           <div class="row mt-3 breadcrumb">
             <nav aria-label="breadcrumb">
               <ol class="breadcrumb">
-                <li class="breadcrumb-item"><router-link to="/">Home</router-link></li>
-                <li class="breadcrumb-item"><router-link to="/food">List Food</router-link></li>
-                <li class="breadcrumb-item active"><strong>Keranjang</strong></li>
+                <li class="breadcrumb-item">
+                  <router-link to="/">Home</router-link>
+                </li>
+                <li class="breadcrumb-item">
+                  <router-link to="/food">List Food</router-link>
+                </li>
+                <li class="breadcrumb-item active">
+                  <strong>Keranjang</strong>
+                </li>
               </ol>
             </nav>
           </div>
@@ -21,34 +27,64 @@
           <div class="table-responsive mt-4">
             <table class="table table-hover">
               <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Photo</th>
-                <th scope="col">Makan</th>
-                <th scope="col">Keterangan</th>
-                <th scope="col">Jumlah</th>
-                <th scope="col">Harga</th>
-                <th scope="col">Total</th>
-                <th scope="col">Aksi</th>
-              </tr>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Photo</th>
+                  <th scope="col">Makan</th>
+                  <th scope="col">Keterangan</th>
+                  <th scope="col">Jumlah</th>
+                  <th scope="col">Harga</th>
+                  <th scope="col">Total</th>
+                  <th scope="col">Aksi</th>
+                </tr>
               </thead>
               <tbody>
-              <tr v-for="(keranjang, index) in keranjangs" :key="keranjang.id">
-                <th>{{ index+1 }}</th>
-                <td>
-                  <img :src="`../asset/image/${keranjang.product.gambar}`" :alt="keranjang.product.nama" width="70px">
-                </td>
-                <td>{{ keranjang.product.nama }}</td>
-                <td v-if="keranjang.keterangan">{{ keranjang.keterangan }}</td>
-                <td v-else class="text-danger">Tidak ada deskripsi</td>
-                <td>{{ keranjang.jumlahPesanan }}</td>
-                <td>{{ keranjang.product.harga }}</td>
-                <td>{{ keranjang.product.harga * keranjang.jumlahPesanan}}</td>
-                <td>
-                  <a href="http://" class="btn-sm btn-info mr-2"><b-icon-pencil></b-icon-pencil></a>
-                  <a href="http://" class="btn-sm btn-danger"><b-icon-bag-x ></b-icon-bag-x></a>
-                </td>
-              </tr>
+                <tr
+                  v-for="(keranjang, index) in keranjangs"
+                  :key="keranjang.id"
+                >
+                  <th>{{ index + 1 }}</th>
+                  <td>
+                    <img
+                      :src="`../asset/image/${keranjang.product.gambar}`"
+                      :alt="keranjang.product.nama"
+                      width="70px"
+                    />
+                  </td>
+                  <td>{{ keranjang.product.nama }}</td>
+                  <td>
+                    {{
+                      keranjang.keterangan
+                        ? keranjang.keterangan
+                        : "Description Not Found"
+                    }}
+                  </td>
+                  <td>{{ keranjang.jumlahPesanan }}</td>
+                  <td>{{ keranjang.product.harga }}</td>
+                  <td>
+                    {{ keranjang.product.harga * keranjang.jumlahPesanan }}
+                  </td>
+                  <td>
+                    <a href="http://" class="btn-sm btn-info mr-2"
+                      ><b-icon-pencil></b-icon-pencil
+                    ></a>
+                    <a
+                      href="http://"
+                      @click.prevent="hapusKeranjang(keranjang.id)"
+                      class="btn-sm btn-danger"
+                      ><b-icon-trash></b-icon-trash
+                    ></a>
+                  </td>
+                </tr>
+
+                <tr v-if="keranjangs.length >= 1">
+                  <td colspan="6" align="right">
+                    <strong>Total Harga : </strong>
+                  </td>
+                  <td>
+                    <strong>Rp. {{ totalHarga }} </strong>
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -59,39 +95,47 @@
 </template>
 
 <script>
-import Navbar from '../components/Navbar.vue'
+import Navbar from "../components/Navbar.vue";
 import axios from "axios";
 
-
 export default {
-  name:'keranjang',
+  name: "keranjang",
   components: {
-    Navbar ,
+    Navbar,
   },
-  data(){
-    return{
+  data() {
+    return {
       keranjangs: [],
-      total:''
-    }
+      total: "",
+    };
   },
-  methods:{
-    setKeranjang(data){
-      this.keranjangs = data
+  methods: {
+    setKeranjang(data) {
+      this.keranjangs = data;
     },
-    totalPesanan(data){
-      this.total = data
-    }
+    totalPesanan(data) {
+      this.total = data;
+    },
+    hapusKeranjang(el) {
+      this.keranjangs.unshift()
+      console.log(el);
+    },
   },
   created() {
-    axios.
-       get("http://localhost:3000/keranjangs")
+    axios
+      .get("http://localhost:3000/keranjangs")
       .then((response) => this.setKeranjang(response.data))
-      .catch((error) => console.log("Data Gagal Di ambil", error))
-  }
-
-}
+      .catch((error) => console.log("Data Gagal Di ambil", error));
+  },
+  computed: {
+    totalHarga() {
+      return this.keranjangs.reduce(function (items, data) {
+        return items + data.jumlahPesanan * data.product.harga;
+      }, 0);
+    },
+  },
+};
 </script>
 
 <style>
-
 </style>

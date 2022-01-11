@@ -16,7 +16,11 @@
       </div>
 
       <div class="row mb-3 mt-4">
-        <div class="col col-md-4 col-12 mb-4" v-for="product in products" :key="product.id">
+        <div
+          class="col col-md-4 col-12 mb-4"
+          v-for="product in products"
+          :key="product.id"
+        >
           <card-product :product="product" />
         </div>
       </div>
@@ -25,7 +29,6 @@
 </template>
 
 <script>
-// Import a Component And Axios
 import Navbar from "../components/Navbar.vue";
 import Hero from "../components/Hero.vue";
 import CardProduct from "../components/CardProduct.vue";

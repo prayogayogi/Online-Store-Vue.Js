@@ -27,7 +27,11 @@
         </div>
       </div>
       <div class="row mb-3 mt-4">
-        <div class="col col-md-4 col-12 mb-4" v-for="product in products" :key="product.id">
+        <div
+          class="col col-md-4 col-12 mb-4"
+          v-for="product in products"
+          :key="product.id"
+        >
           <card-product :product="product" />
         </div>
       </div>
@@ -58,7 +62,7 @@ export default {
     },
     searchFoods() {
       axios
-        .get("http://localhost:3000/products?q=" + this.search)
+        .get(`http://localhost:3000/products?q=${this.search}`)
         .then((response) => this.setProducts(response.data))
         .catch((error) => console.log("Data Gagal Di ambil", error));
     },

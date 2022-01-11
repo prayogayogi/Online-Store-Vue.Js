@@ -2,7 +2,7 @@
   <div class="footer">
     <div class="row">
       <div class="col text-center">
-        <hr>
+        <hr />
         <p>CopyRight@jaswebpedia.Com</p>
       </div>
     </div>
@@ -11,6 +11,6 @@
 
 <script>
 export default {
-  name: "Footer"
-}
+  name: "Footer",
+};
 </script>
