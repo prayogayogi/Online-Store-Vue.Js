@@ -1,6 +1,6 @@
 <template>
   <div>
-    <navbar />
+    <navbar :keranjangs="keranjangs" />
     <div class="container">
       <div class="row">
         <div class="col">
@@ -90,6 +90,36 @@
           </div>
         </div>
       </div>
+
+      <!-- Form Checkout -->
+      <div class="row justify-content-end" v-if="keranjangs.length >= 1">
+        <div class="col-md-4">
+          <form @submit.prevent="checkout">
+            <div class="form-group mt-3">
+              <label for="nama">Nama: </label>
+              <input
+                type="text"
+                class="form-control"
+                v-model="pesan.nama"
+                id="nama"
+              />
+            </div>
+            <div class="form-group">
+              <label for="keterangan">Nomer Meja</label>
+              <input
+                type="number"
+                class="form-control"
+                v-model="pesan.noMeja"
+                id="keterangan"
+              />
+            </div>
+            <button type="submit" class="btn btn-success flex-left">
+              <b-icon-cart></b-icon-cart> Pesan
+            </button>
+          </form>
+        </div>
+      </div>
+      <!-- End Form Checkout -->
     </div>
   </div>
 </template>
@@ -107,6 +137,7 @@ export default {
     return {
       keranjangs: [],
       total: "",
+      pesan: {},
     };
   },
   methods: {
@@ -116,9 +147,41 @@ export default {
     totalPesanan(data) {
       this.total = data;
     },
-    hapusKeranjang(el) {
-      this.keranjangs.unshift()
-      console.log(el);
+    hapusKeranjang(id) {
+      axios
+        .delete(`http://localhost:3000/keranjangs/${id}`)
+        .then(() => {
+          alert("Data Berhasil Di Hapus");
+
+          // Update Table Keranjang
+          axios
+            .get("http://localhost:3000/keranjangs")
+            .then((response) => this.setKeranjang(response.data))
+            .catch((error) => console.log("Data Gagal Di ambil", error));
+        })
+        .catch((error) => console.log("Data Gagal Di Hapus", error));
+    },
+    checkout() {
+      if (this.pesan.nama && this.pesan.noMeja) {
+        this.pesan.keranjangs = this.keranjangs;
+
+        // Hapus All Keranjang
+        axios
+          .post("http://localhost:3000/pesanans", this.pesan)
+          .then(() => {
+            this.keranjangs.forEach(function (item) {
+              return axios
+                .delete(`http://localhost:3000/keranjangs/${item.id}`)
+                .catch((error) => console.log("Data Gagal Di Hapus", error));
+            });
+
+            this.$router.push({ path: "/pesanan-sukses" });
+            alert("Pesanan anda berhasil di Checkout.");
+          })
+          .catch((error) => console.log("Data Gagal Di Push", error));
+      } else {
+        alert("Nama dan Nomor Meja Harus di Isi..!");
+      }
     },
   },
   created() {

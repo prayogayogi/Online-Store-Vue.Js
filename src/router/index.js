@@ -1,39 +1,45 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
-import Food from '../views/Food.vue'
-import Keranjang from '../views/Keranjang.vue'
-import FoodDetail from '../views/FoodDetail.vue'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import Home from "../views/Home.vue";
+import Food from "../views/Food.vue";
+import Keranjang from "../views/Keranjang.vue";
+import FoodDetail from "../views/FoodDetail.vue";
+import PesananSukses from "../views/PesananSukses.vue";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: Home
+    path: "/",
+    name: "Home",
+    component: Home,
   },
   {
-    path: '/food',
-    name: 'Food',
-    component: Food
+    path: "/food",
+    name: "Food",
+    component: Food,
   },
   {
-    path: '/food/:id',
-    name: 'FoodDetail',
-    component: FoodDetail
+    path: "/food/:id",
+    name: "FoodDetail",
+    component: FoodDetail,
   },
   {
-    path: '/keranjang',
-    name: 'Keranjang',
-    component: Keranjang
-  }
-]
+    path: "/keranjang",
+    name: "Keranjang",
+    component: Keranjang,
+  },
+  {
+    path: "/pesanan-sukses",
+    name: "PesananSukses",
+    component: PesananSukses,
+  },
+];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;

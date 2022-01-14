@@ -1,46 +1,30 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light">
-    <div class="container">
-      <router-link class="navbar-brand" to="/">
-        <img
-          src="https://uxwing.com/wp-content/themes/uxwing/download/20-food-and-drinks/meal-food.png"
-          alt="logo"
-          width="50px"
-        />
-      </router-link>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarNav"
-        aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item">
+  <div>
+    <b-navbar toggleable="lg" type="light">
+      <div class="container">
+        <router-link to="/">
+          <img
+            src="https://uxwing.com/wp-content/themes/uxwing/download/20-food-and-drinks/meal-food.png"
+            alt="logo"
+            width="50px"
+        /></router-link>
+        <b-navbar-toggle target="nav-collapse"> </b-navbar-toggle>
+        <b-collapse id="nav-collapse" is-nav>
+          <!-- Right aligned nav items -->
+          <b-navbar-nav class="ml-auto">
             <router-link class="nav-link" to="/">Home</router-link>
-          </li>
-          <li class="nav-item">
             <router-link class="nav-link" to="/food">Food</router-link>
-          </li>
-        </ul>
-        <ul class="navbar-nav">
-          <li class="nav-item">
             <router-link class="nav-link" to="/keranjang">
               <b-icon-bag class="ml-n1 mr-1"></b-icon-bag>
               <span class="badge badge-success">{{
-                keranjang_pesanan.length
+               keranjangs ? keranjangs.length : keranjang_pesanan.length
               }}</span>
             </router-link>
-          </li>
-        </ul>
+          </b-navbar-nav>
+        </b-collapse>
       </div>
-    </div>
-  </nav>
+    </b-navbar>
+  </div>
 </template>
 
 <script>
@@ -53,6 +37,7 @@ export default {
       keranjang_pesanan: [],
     };
   },
+  props: ['keranjangs'],
   methods: {
     getKeranjang(data) {
       this.keranjang_pesanan = data;
